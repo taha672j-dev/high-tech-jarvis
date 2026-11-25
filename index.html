@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>J.A.R.V.I.S.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#030b14;--panel:#071826;--line:#0e3a52;--cyan:#38e8ff;--ice:#bff6ff;--dim:#6f9bad;--amber:#ffb83d}
+*{box-sizing:border-box;margin:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--ice);font-family:"Chakra Petch",system-ui,sans-serif;line-height:1.6;overflow-x:hidden;
+background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:48px 48px;background-position:center top}
+body::before{content:"";position:fixed;inset:0;background:radial-gradient(ellipse at 50% 30%,transparent 0,var(--bg) 72%);pointer-events:none}
+body::after{content:"";position:fixed;left:0;right:0;height:120px;top:-120px;background:linear-gradient(transparent,rgba(56,232,255,.07),transparent);animation:scan 7s linear infinite;pointer-events:none}
+@keyframes scan{to{transform:translateY(calc(100vh + 120px))}}
+main{position:relative;z-index:1;max-width:1000px;margin:0 auto;padding:0 20px}
+nav{display:flex;justify-content:space-between;align-items:center;padding:20px 0;color:var(--dim);font-size:14px}
+nav b{color:var(--cyan);letter-spacing:.18em}
+.live{display:flex;align-items:center;gap:8px}
+.live i{width:8px;height:8px;border-radius:50%;background:#3dff9a;box-shadow:0 0 10px #3dff9a;animation:blink 1.6s infinite}
+@keyframes blink{50%{opacity:.25}}
+
+.hero{display:grid;justify-items:center;text-align:center;padding:30px 0 70px}
+.reactor{position:relative;width:min(320px,78vw);aspect-ratio:1;cursor:pointer;margin-bottom:28px;-webkit-tap-highlight-color:transparent}
+.reactor:focus-visible{outline:2px solid var(--amber);outline-offset:10px;border-radius:50%}
+.reactor svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.r1{animation:spin 24s linear infinite;transform-origin:50% 50%}
+.r2{animation:spin 14s linear infinite reverse;transform-origin:50% 50%}
+.r3{animation:spin 40s linear infinite;transform-origin:50% 50%}
+@keyframes spin{to{transform:rotate(360deg)}}
+.core{position:absolute;left:50%;top:50%;width:26%;aspect-ratio:1;transform:translate(-50%,-50%);border-radius:50%;
+background:radial-gradient(circle,#fff 0,var(--cyan) 35%,transparent 72%);box-shadow:0 0 60px 14px rgba(56,232,255,.5);animation:pulse 3s ease-in-out infinite}
+@keyframes pulse{50%{transform:translate(-50%,-50%) scale(1.22);box-shadow:0 0 90px 26px rgba(56,232,255,.6)}}
+.reactor.awake .core{animation-duration:.8s}
+.reactor.awake .r1{animation-duration:5s}.reactor.awake .r2{animation-duration:3s}
+
+h1{font-size:clamp(40px,9vw,84px);letter-spacing:.14em;font-weight:700;line-height:1;text-shadow:0 0 28px rgba(56,232,255,.55)}
+.sub{color:var(--dim);margin:14px 0 22px;font-size:18px}
+.say{min-height:3.2em;max-width:560px;color:var(--cyan);font-size:18px}
+.say::after{content:"▍";animation:blink 1s infinite;margin-left:2px}
+.wave{display:flex;gap:4px;height:44px;align-items:center;margin-top:14px}
+.wave span{width:4px;height:8px;background:var(--cyan);border-radius:2px;box-shadow:0 0 8px var(--cyan);animation:bar 1.1s ease-in-out infinite}
+@keyframes bar{50%{height:40px}}
+.hint{font-size:13px;color:var(--dim);margin-top:10px}
+
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:18px;padding-bottom:70px}
+.card{background:linear-gradient(160deg,rgba(7,24,38,.92),rgba(3,11,20,.92));border:1px solid var(--line);padding:22px;position:relative;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,18px 100%,0 calc(100% - 18px));transition:border-color .25s,transform .25s}
+.card:hover{border-color:var(--cyan);transform:translateY(-3px)}
+.card h2{font-size:20px;color:var(--cyan);margin-bottom:6px}
+.card p{color:var(--dim);font-size:15px}
+.bar{height:4px;background:var(--line);margin-top:16px;overflow:hidden}
+.bar i{display:block;height:100%;width:0;background:var(--cyan);box-shadow:0 0 10px var(--cyan);transition:width 1.6s cubic-bezier(.2,.8,.2,1)}
+.in .bar i{width:var(--w)}
+
+.term{background:#02080f;border:1px solid var(--line);padding:20px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:14px;margin-bottom:70px;min-height:230px}
+.term .ok{color:#3dff9a}.term .am{color:var(--amber)}.term .dm{color:var(--dim)}
+.term div{white-space:pre-wrap;animation:show .3s}
+@keyframes show{from{opacity:0;transform:translateX(-8px)}}
+footer{text-align:center;color:var(--dim);font-size:13px;padding:0 0 40px}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main>
+<nav><b>J.A.R.V.I.S.</b><span class="live"><i></i>All systems online</span></nav>
+
+<section class="hero">
+  <div class="reactor" id="reactor" role="button" tabindex="0" aria-label="Wake J.A.R.V.I.S.">
+    <svg viewBox="0 0 200 200" fill="none" stroke="#38e8ff">
+      <circle cx="100" cy="100" r="96" stroke-opacity=".25"/>
+      <g class="r3"><circle cx="100" cy="100" r="88" stroke-width="1.2" stroke-dasharray="2 6" stroke-opacity=".8"/></g>
+      <g class="r1"><circle cx="100" cy="100" r="76" stroke-width="5" stroke-dasharray="44 18" stroke-opacity=".9"/></g>
+      <g class="r2"><circle cx="100" cy="100" r="60" stroke-width="2" stroke-dasharray="90 14 6 14" stroke="#ffb83d"/></g>
+      <circle cx="100" cy="100" r="46" stroke-width="1" stroke-opacity=".5"/>
+    </svg>
+    <div class="core"></div>
+  </div>
+  <h1>J.A.R.V.I.S.</h1>
+  <p class="sub">A voice assistant that listens, thinks and acts on your desktop.</p>
+  <p class="say" id="say" aria-live="polite"></p>
+  <div class="wave" id="wave" aria-hidden="true"></div>
+  <p class="hint">Click the reactor to wake him up.</p>
+</section>
+
+<section class="grid" id="grid">
+  <article class="card"><h2>Voice first</h2><p>Speak naturally. Wake word, speech-to-text and a spoken reply in under a second.</p><div class="bar"><i style="--w:96%"></i></div></article>
+  <article class="card"><h2>Many brains</h2><p>Routes each request to Gemini, a local Ollama model or a local ChatGPT, whichever fits the job.</p><div class="bar"><i style="--w:88%"></i></div></article>
+  <article class="card"><h2>Browser agent</h2><p>Opens pages, searches, clicks and reads results for you while you keep working.</p><div class="bar"><i style="--w:78%"></i></div></article>
+  <article class="card"><h2>Greetings engine</h2><p>Knows the time of day and your habits, so every start-up sounds a little different.</p><div class="bar"><i style="--w:92%"></i></div></article>
+</section>
+
+<section class="term" id="term" aria-label="Live system log"></section>
+
+<footer>Built in Python. Runs on your machine.</footer>
+</main>
+
+<script>
+(function(){
+  var $=function(id){return document.getElementById(id)};
+  var wave=$("wave");
+  for(var i=0;i<28;i++){var s=document.createElement("span");s.style.animationDelay=(i*0.07)+"s";s.style.animationDuration=(0.7+Math.random()*0.9)+"s";wave.appendChild(s)}
+
+  var lines=["Good evening. All systems are online.","Gemini linked. Local models standing by.","Browser agent ready. What are we building today?"];
+  var say=$("say"),li=0,timer;
+  function type(text){
+    clearTimeout(timer);say.textContent="";var n=0;
+    (function step(){if(n<=text.length){say.textContent=text.slice(0,n++);timer=setTimeout(step,32)}})();
+  }
+  var reactor=$("reactor");
+  function wake(){reactor.classList.add("awake");type(lines[li++%lines.length]);setTimeout(function(){reactor.classList.remove("awake")},4000)}
+  reactor.addEventListener("click",wake);
+  reactor.addEventListener("keydown",function(e){if(e.key==="Enter"||e.key===" "){e.preventDefault();wake()}});
+  setTimeout(function(){type("Hello. I am J.A.R.V.I.S. Click the reactor to talk.")},600);
+
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target)}})},{threshold:.3});
+  document.querySelectorAll(".card").forEach(function(c){io.observe(c)});
+
+  var term=$("term");
+  var log=[["ok","[boot] kernel loaded"],["ok","[audio] microphone calibrated"],["ok","[stt] speech recognition online"],["dm","[router] choosing model for: \"open my calendar\""],["am","[router] gemini selected (fast, cloud)"],["ok","[browser] page opened, 3 results read"],["dm","[router] choosing model for: \"summarise this file\""],["am","[router] ollama selected (private, local)"],["ok","[tts] reply spoken in 0.8s"],["dm","[idle] waiting for wake word..."]];
+  var k=0;
+  function push(){
+    var d=document.createElement("div");d.className=log[k%log.length][0];d.textContent=log[k%log.length][1];
+    term.appendChild(d);k++;
+    while(term.children.length>8)term.removeChild(term.firstChild);
+  }
+  push();setInterval(push,1400);
+})();
+</script>
+</body>
+</html>
